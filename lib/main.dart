@@ -1,3 +1,4 @@
+import 'package:filmood/screens/DrawerScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';
@@ -13,12 +14,15 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MovieProvider(),
       child: MaterialApp(
-        title: 'Filmood',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Stack(
+          children: [
+            DrawerScreen(),
+            HomeScreen(),
+          ],
         ),
-        home: HomeScreen(), // Your HomeScreen where movies will be displayed
+      ),
       ),
     );
   }
