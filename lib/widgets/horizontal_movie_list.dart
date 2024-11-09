@@ -20,7 +20,7 @@ class HorizontalMovieList extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 150, // Height of the movie posters
+          height: 200, // Height of the movie posters
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: movies.length,
@@ -34,17 +34,11 @@ class HorizontalMovieList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       child: Image.network(
                         'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                        width: 100, // Width of each movie poster
+                        width: 100, 
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(height: 5),
-                    Text(
-                      movie.title,
-                      style: TextStyle(fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
+                   
                   ],
                 ),
               );
