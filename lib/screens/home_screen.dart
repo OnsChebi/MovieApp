@@ -1,3 +1,4 @@
+import 'package:filmood/widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // Fetch movies after the first frame.
+  //fetching movies after intialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<MovieProvider>(context, listen: false).fetchAllMovies();
     });
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //access to the provider to retrieve movie data
     final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              // Implement search functionality here
+              //search button
               showSearch(
                 context: context,
                 delegate: MovieSearchDelegate(),
@@ -50,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: GestureDetector(
           onTap: () {
             setState(() {
+              //toggele drawer
               if (isDrawerOpen) {
                 xOffset = 0;
                 yOffset = 0;
@@ -67,8 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      //animation for the drawer
       body: AnimatedContainer(
         transform: Matrix4.translationValues(xOffset, yOffset, 0)
+          //for the translation
           ..scale(isDrawerOpen ? 0.85 : 1.00)
           ..rotateZ(isDrawerOpen ? -50 : 0),
         duration: Duration(milliseconds: 200),
@@ -80,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: <Widget>[
               // Movie Carousels
-              SizedBox(height: 50),
+              SizedBox(height: 50),//margin fou9 carousel
               if (movieProvider.trendingMovies.isNotEmpty)
                 MovieCarousel(
                   movies: movieProvider.trendingMovies,
@@ -103,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
+//rsearch fct
 class MovieSearchDelegate extends SearchDelegate {
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -111,7 +116,7 @@ class MovieSearchDelegate extends SearchDelegate {
       IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
-          query = ''; // Reset the query input
+          query = ''; // clear the search input
         },
       ),
     ];
@@ -120,7 +125,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.arrow_back),//back to home page
       onPressed: () {
         close(context, null);
       },
@@ -129,8 +134,10 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    //retrieve movies for search result
     final movieProvider = Provider.of<MovieProvider>(context);
-    final searchResults = movieProvider.popularMovies
+    //filtrartion selon search
+    final searchResults = movieProvider.AllMovies
         .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
@@ -161,7 +168,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
-    final suggestions = movieProvider.popularMovies
+    final suggestions = movieProvider.AllMovies
         .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
@@ -174,12 +181,14 @@ class MovieSearchDelegate extends SearchDelegate {
       itemCount: suggestions.length,
       itemBuilder: (context, index) {
         final movie = suggestions[index];
-        return ListTile(
+        return CustomListTile(
+          height: 130,
           leading: Image.network(
             'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-            width: 50,
-            height: 75,
+            width: 70,
+            height: 130,
             fit: BoxFit.cover,
+            
           ),
           title: Text(
             movie.title,

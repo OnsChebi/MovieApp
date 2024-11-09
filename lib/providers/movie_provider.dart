@@ -11,6 +11,12 @@ class MovieProvider with ChangeNotifier {
   List<MovieModel> trendingMovies = [];
   List<MovieModel> upcomingMovies = [];
   List<MovieModel> popularMovies = [];
+  List<MovieModel> topRatedMovies = [];
+  List<MovieModel> nowPlayingMovies = [];
+  List<MovieModel> movieDetails = [];
+  List<MovieModel> AllMovies = [];
+  
+
 
   // Fetching movies 
   Future<void> fetchMovies(String path, String category) async {
@@ -31,6 +37,15 @@ class MovieProvider with ChangeNotifier {
           case 'popular':
             popularMovies = movies;
             break;
+            case 'top_rated':
+            topRatedMovies = movies;
+            break;
+            case 'now_playing':
+            nowPlayingMovies = movies;
+            break;
+            case 'all':
+            AllMovies = movies;
+            break;
         }
         notifyListeners();
       }
@@ -44,5 +59,9 @@ class MovieProvider with ChangeNotifier {
     await fetchMovies(ApiConstants.TRENDING_MOVIES, 'trending');
     await fetchMovies(ApiConstants.UPCOMING_MOVIES, 'upcoming');
     await fetchMovies(ApiConstants.POPULAR_MOVIES, 'popular');
+    await fetchMovies(ApiConstants.TOP_RATED_MOVIES, 'top_rated');
+    await fetchMovies(ApiConstants.NOW_PLAYING_MOVIES, 'now_playing');
+    await fetchMovies(ApiConstants.ALL_MOVIES, 'all');
+
   }
 }
