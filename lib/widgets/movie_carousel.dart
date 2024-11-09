@@ -1,47 +1,103 @@
+import 'dart:ui';
+
 import 'package:filmood/models/movies_model.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class MovieCarousel extends StatelessWidget {
+class MovieCarousel extends StatefulWidget {
   final List<MovieModel> movies;
   final String title;
 
   MovieCarousel({required this.movies, required this.title});
 
   @override
+  _MovieCarouselState createState() => _MovieCarouselState();
+}
+
+class _MovieCarouselState extends State<MovieCarousel> {
+  int _currentIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        // Dynamic Background Image
+        Positioned.fill(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              widget.movies[_currentIndex].backdropPath != null
+                  ? Image.network(
+                      'https://image.tmdb.org/t/p/w500${widget.movies[_currentIndex].backdropPath}',
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      color: Colors.black, // Fallback color if no backdropPath
+                    ),
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                child: Container(
+                  color: Colors.black.withOpacity(0.3),
+                ),
+              ),
+              ],
           ),
         ),
-        CarouselSlider(
-          options: CarouselOptions(height: 200.0, autoPlay: true),
-          items: movies.map((movie) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Column(
-                  children: [
-                    Image.network(
-                      'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      movie.title,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
+        // Carousel with Movie Posters in Card
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                widget.title,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 300.0,
+                autoPlay: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _currentIndex = index; // Update background on movie change
+                  });
+                },
+              ),
+              items: widget.movies.map((movie) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 40), // Position poster lower than background
+                        Card(
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                              height: 200,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        // Text(
+                        //   movie.title,
+                        //   style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                        // ),
+                      ],
+                    );
+                  },
                 );
-              },
-            );
-          }).toList(),
+              }).toList(),
+            ),
+          ],
         ),
       ],
     );

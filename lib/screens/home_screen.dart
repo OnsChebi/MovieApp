@@ -1,4 +1,5 @@
 import 'package:filmood/widgets/custom_list_tile.dart';
+import 'package:filmood/widgets/horizontal_movie_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';
@@ -85,19 +86,20 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: <Widget>[
               // Movie Carousels
-              SizedBox(height: 50),//margin fou9 carousel
+              
               if (movieProvider.trendingMovies.isNotEmpty)
                 MovieCarousel(
                   movies: movieProvider.trendingMovies,
-                  title: 'Trending Movies',
+                  title: '',
                 ),
               if (movieProvider.upcomingMovies.isNotEmpty)
-                MovieCarousel(
+                HorizontalMovieList(
                   movies: movieProvider.upcomingMovies,
                   title: 'Upcoming Movies',
                 ),
+              // Horizontal List of Popular Movies
               if (movieProvider.popularMovies.isNotEmpty)
-                MovieCarousel(
+                HorizontalMovieList(
                   movies: movieProvider.popularMovies,
                   title: 'Popular Movies',
                 ),
