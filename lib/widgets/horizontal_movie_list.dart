@@ -38,7 +38,6 @@ class HorizontalMovieList extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                   
                   ],
                 ),
               );

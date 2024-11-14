@@ -1,4 +1,5 @@
 import 'package:filmood/screens/DrawerScreen.dart';
+import 'package:filmood/screens/movie_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';

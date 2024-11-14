@@ -14,6 +14,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
         child: ListView(
           children: <Widget>[
+            // Profile Section
             Row(
               children: <Widget>[
                 CircleAvatar(

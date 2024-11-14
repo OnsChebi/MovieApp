@@ -18,8 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-
-  //fetching movies after intialization
+    // Fetching movies after initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<MovieProvider>(context, listen: false).fetchAllMovies();
     });
@@ -27,10 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //access to the provider to retrieve movie data
+    // Access to the provider to retrieve movie data
     final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 116, 16, 184),
       appBar: AppBar(
         title: Image.asset(
           'assets/logo.png',
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              //search button
+              // Search button
               showSearch(
                 context: context,
                 delegate: MovieSearchDelegate(),
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: GestureDetector(
           onTap: () {
             setState(() {
-              //toggele drawer
+              // Toggle drawer
               if (isDrawerOpen) {
                 xOffset = 0;
                 yOffset = 0;
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //animation for the drawer
       body: AnimatedContainer(
         transform: Matrix4.translationValues(xOffset, yOffset, 0)
-          //for the translation
+          // For the translation
           ..scale(isDrawerOpen ? 0.85 : 1.00)
           ..rotateZ(isDrawerOpen ? -50 : 0),
         duration: Duration(milliseconds: 200),
@@ -86,7 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: <Widget>[
               // Movie Carousels
-              
               if (movieProvider.trendingMovies.isNotEmpty)
                 MovieCarousel(
                   movies: movieProvider.trendingMovies,
@@ -118,7 +117,7 @@ class MovieSearchDelegate extends SearchDelegate {
       IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
-          query = ''; // clear the search input
+          query = ''; // Clear the search input
         },
       ),
     ];
@@ -127,7 +126,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),//back to home page
+      icon: Icon(Icons.arrow_back), // Back to home page
       onPressed: () {
         close(context, null);
       },
@@ -136,10 +135,10 @@ class MovieSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    //retrieve movies for search result
+    // Retrieve movies for search result
     final movieProvider = Provider.of<MovieProvider>(context);
     //filtrartion selon search
-    final searchResults = movieProvider.AllMovies
+    final searchResults = movieProvider.allMovies
         .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
@@ -153,7 +152,7 @@ class MovieSearchDelegate extends SearchDelegate {
         final movie = searchResults[index];
         return ListTile(
           leading: Image.network(
-            'https://image.tmdb.org/t/p/w500${movie.posterPath}', // Adjust the image URL
+            'https://image.tmdb.org/t/p/w500${movie.posterPath}', 
             width: 50,
             height: 75,
             fit: BoxFit.cover,
@@ -170,7 +169,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
-    final suggestions = movieProvider.AllMovies
+    final suggestions = movieProvider.allMovies
         .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
@@ -190,7 +189,6 @@ class MovieSearchDelegate extends SearchDelegate {
             width: 70,
             height: 130,
             fit: BoxFit.cover,
-            
           ),
           title: Text(
             movie.title,

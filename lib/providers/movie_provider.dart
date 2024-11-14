@@ -14,7 +14,7 @@ class MovieProvider with ChangeNotifier {
   List<MovieModel> topRatedMovies = [];
   List<MovieModel> nowPlayingMovies = [];
   List<MovieModel> movieDetails = [];
-  List<MovieModel> AllMovies = [];
+  List<MovieModel> allMovies = [];
   
 
 
@@ -44,13 +44,13 @@ class MovieProvider with ChangeNotifier {
             nowPlayingMovies = movies;
             break;
             case 'all':
-            AllMovies = movies;
+            allMovies = movies;
             break;
         }
         notifyListeners();
       }
     } catch (e) {
-      print('Failed to fetch $category movies: $e');
+      //print('Failed to fetch $category movies: $e');
     }
   }
 
