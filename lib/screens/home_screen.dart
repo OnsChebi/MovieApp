@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color.fromARGB(255, 116, 16, 184),
         actions: [
           IconButton(
-            icon: Icon(Icons.search, color: Colors.white),
+            icon:const Icon(Icons.search, color: Colors.white),
             onPressed: () {
               // Search button
               showSearch(
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // For the translation
           ..scale(isDrawerOpen ? 0.85 : 1.00)
           ..rotateZ(isDrawerOpen ? -50 : 0),
-        duration: Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
@@ -115,7 +115,7 @@ class MovieSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = ''; // Clear the search input
         },
@@ -126,7 +126,7 @@ class MovieSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back), // Back to home page
+      icon:const  Icon(Icons.arrow_back), // Back to home page
       onPressed: () {
         close(context, null);
       },
@@ -159,7 +159,7 @@ class MovieSearchDelegate extends SearchDelegate {
           ),
           title: Text(
             movie.title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style:const  TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         );
       },
@@ -174,7 +174,8 @@ class MovieSearchDelegate extends SearchDelegate {
         .toList();
 
     if (suggestions.isEmpty) {
-      return Center(child: CircularProgressIndicator());
+      return  const Center(
+        child: CircularProgressIndicator());
     }
 
     return ListView.builder(

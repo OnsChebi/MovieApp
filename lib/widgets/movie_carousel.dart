@@ -82,7 +82,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MoviesDetailScreen(Movies: movie),
+          builder: (context) => MoviesDetailScreen(movie: movie),
         ),
       );
     },

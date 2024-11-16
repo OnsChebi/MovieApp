@@ -34,7 +34,7 @@ class HorizontalMovieList extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MoviesDetailScreen(Movies: movie),
+                        builder: (context) => MoviesDetailScreen(movie: movie),
                       ),
                     );
                   },
