@@ -8,24 +8,127 @@ class MoviesDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String poster = 'https://image.tmdb.org/t/p/w500${movie.posterPath}';
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final String poster = 'https://image.tmdb.org/t/p/w500${movie.posterPath}';
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildMovieImage(poster),
+            Stack(
+              children: [
+                _buildMoviePoster(poster, screenHeight / 3),
+                Positioned(
+                  top: 30,
+                  left: 16,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: screenHeight / 3 - 40,
+                  right: 16,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(12),
+                      backgroundColor: Colors.white,
+                    ),
+                    onPressed: () {
+                      // Handle play action
+                    },
+                    child: const Icon(Icons.play_arrow, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildMovieTitle(movie.title),
-                  const SizedBox(height: 10),
-                  _buildMovieOverview(movie.overview),
-                  const SizedBox(height: 20),
-                  _buildMovieInfo(movie),
+                  Text(
+                    movie.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Icon(Icons.star, color: Colors.amber, size: 20),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${movie.voteAverage}/10',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        'Release Date: ${movie.releaseDate}',
+                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    movie.overview ?? 'No description available.',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                      height: 1.5,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Handle see more action
+                    },
+                    child: const Text(
+                      'See More',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Handle add to watch later
+                        },
+                        icon: const Icon(Icons.add),
+                        label: const Text('Add to Watch Later'),
+                      ),
+                      // const SizedBox(width: 16),
+                      // ElevatedButton(
+                      //   style: ElevatedButton.styleFrom(
+                      //     shape: const CircleBorder(),
+                      //     padding: const EdgeInsets.all(12),
+                      //     backgroundColor: Colors.redAccent,
+                      //   ),
+                      //   onPressed: () {
+                      //     // Handle add to favorites
+                      //   },
+                      //   child: const Icon(Icons.favorite, color: Colors.white),
+                      // ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Related Movies',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildRelatedMoviesList(),
                 ],
               ),
             ),
@@ -35,85 +138,37 @@ class MoviesDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMovieImage(String posterPath) {
-    return Stack(
-      children: [
-        Image.network(
-          posterPath,
-          height: 400,
-          width: double.infinity,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) =>
-              const Center(child: Text('Image not available')),
-        ),
-        Positioned(
-          top: 30,
-          left: 16,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-             // Navigator.of(context).pop();
-            },
-          ),
-        ),
-      ],
+  Widget _buildMoviePoster(String posterPath, double height) {
+    return Image.network(
+      posterPath,
+      height: height,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) =>
+          const Center(child: Text('Image not available')),
     );
   }
 
-  Widget _buildMovieTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: Colors.black87,
-      ),
-    );
-  }
+  Widget _buildRelatedMoviesList() {
+    // Replace with actual related movies list
+    final List<String> SimilarMovies = List.generate(10, (index) => 'Movie $index');
 
-  Widget _buildMovieOverview(String? overview) {
-    return Text(
-      overview ?? 'No description available.',
-      style: const TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-        height: 1.5,
-      ),
-    );
-  }
-
-  Widget _buildMovieInfo(MovieModel movie) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildInfoRow('Release Date:', movie.releaseDate),
-        _buildInfoRow('Rating:', '${movie.voteAverage}/10'),
-      ],
-    );
-  }
-
-  Widget _buildInfoRow(String label, String? value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: RichText(
-        text: TextSpan(
-          text: '$label ',
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-          children: [
-            TextSpan(
-              text: value ?? 'Unknown',
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-                color: Colors.black54,
-              ),
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: SimilarMovies.length,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 100,
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey[200],
             ),
-          ],
-        ),
+            child: Center(child: Text(SimilarMovies[index])),
+          );
+        },
       ),
     );
   }

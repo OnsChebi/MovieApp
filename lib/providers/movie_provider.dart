@@ -14,6 +14,7 @@ class MovieProvider with ChangeNotifier {
   List<MovieModel> topRatedMovies = [];
   List<MovieModel> nowPlayingMovies = [];
   List<MovieModel> movieDetails = [];
+  List<MovieModel> movieSimilar = [];
   List<MovieModel> allMovies = [];
   
 
@@ -43,6 +44,9 @@ class MovieProvider with ChangeNotifier {
             case 'now_playing':
             nowPlayingMovies = movies;
             break;
+            case 'similar':
+            nowPlayingMovies = movies;
+            break;
             case 'all':
             allMovies = movies;
             break;
@@ -61,6 +65,7 @@ class MovieProvider with ChangeNotifier {
     await fetchMovies(ApiConstants.POPULAR_MOVIES, 'popular');
     await fetchMovies(ApiConstants.TOP_RATED_MOVIES, 'top_rated');
     await fetchMovies(ApiConstants.NOW_PLAYING_MOVIES, 'now_playing');
+    await fetchMovies(ApiConstants.NOW_PLAYING_MOVIES, 'similar');
     await fetchMovies(ApiConstants.ALL_MOVIES, 'all');
 
   }
