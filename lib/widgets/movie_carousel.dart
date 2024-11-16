@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:filmood/models/movies_model.dart';
+import 'package:filmood/screens/movie_details.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -76,16 +77,26 @@ class _MovieCarouselState extends State<MovieCarousel> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                              height: 200,
-                              width: 150,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
+                           child: GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MoviesDetailScreen(Movies: movie),
+        ),
+      );
+    },
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: Image.network(
+        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+        height: 200,
+        width: 150,
+        fit: BoxFit.cover,
+      ),
+    ),
+  ),
+),
                         SizedBox(height: 10),
                         // Text(
                         //   movie.title,

@@ -1,16 +1,14 @@
+import 'package:filmood/models/movies_model.dart';
+import 'package:filmood/screens/movie_details.dart';
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
-  final Widget? leading;
-  final Widget? title;
-  final VoidCallback? onTap;
-  final double? height;
+  final MovieModel movie; // Specific movie data
+  final double height;
 
   const CustomListTile({
     Key? key,
-    this.leading,
-    this.title,
-    this.onTap,
+    required this.movie,
     required this.height,
   }) : super(key: key);
 
@@ -18,22 +16,45 @@ class CustomListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        onTap: onTap,
+        onTap: () {
+          // Navigate to the movie details screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MoviesDetailScreen(Movies: movie),
+            ),
+          );
+        },
         child: SizedBox(
           height: height,
           child: Row(
             children: [
-              if (leading != null)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: leading,
+              // Movie poster as the leading widget
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    width: 50, // Thumbnail size
+                    fit: BoxFit.cover,
+                  ),
                 ),
+              ),
+              // Movie title as the title widget
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (title != null) title!,
+                    Text(
+                      movie.title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ],
                 ),
               ),

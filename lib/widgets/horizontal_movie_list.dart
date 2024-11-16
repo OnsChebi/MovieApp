@@ -1,4 +1,5 @@
 import 'package:filmood/models/movies_model.dart';
+import 'package:filmood/screens/movie_details.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalMovieList extends StatelessWidget {
@@ -28,17 +29,27 @@ class HorizontalMovieList extends StatelessWidget {
               final movie = movies[index];
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                        width: 100, 
-                        fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MoviesDetailScreen(Movies: movie),
                       ),
-                    ),
-                  ],
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

@@ -1,36 +1,31 @@
+// import 'package:flutter/material.dart';
+
+import 'package:filmood/models/movies_model.dart';
 import 'package:flutter/material.dart';
 
-class MovieDetails extends StatelessWidget {
-  final String title;
-  final String posterPath;
-  final String overview;
-  final String releaseDate;
-  final double voteAverage;
+class MoviesDetailScreen extends StatelessWidget {
+  final MovieModel Movies;
 
-  const MovieDetails({
-    super.key,
-    required this.title,
-    required this.posterPath,
-    required this.overview,
-    required this.releaseDate,
-    required this.voteAverage,
-  });
+  const MoviesDetailScreen({super.key, required this.Movies});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView( // To ensure everything scrolls when it's too long
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(Movies.title),
+        centerTitle: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Movie poster image
           Container(
             height: 300,
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+            margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0), 
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: BorderRadius.circular(15.0), 
               child: Image.network(
-                'https://image.tmdb.org/t/p/w500$posterPath', // Use passed posterPath
+                Movies.posterPath?? 'No poster available', 
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const Center(child: Text('Image not found'));
@@ -42,57 +37,26 @@ class MovieDetails extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              title, // Use passed title
+              Movies.title,
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 24, 
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.center, 
             ),
           ),
-          // Overview section
+         
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
             child: Text(
-              overview.isNotEmpty ? overview : 'No description available', // Use passed overview
+              Movies.overview ?? 'No description available', 
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.grey[700],
-                height: 1.5,
+                color: Colors.grey[700], 
+                height: 1.5, 
               ),
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.center, 
               softWrap: true,
-            ),
-          ),
-          // Movie details section (Release Date and Vote Average)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Release Date
-                Row(
-                  children: [
-                    Icon(Icons.calendar_today, color: Colors.grey[700]),
-                    SizedBox(width: 8),
-                    Text(
-                      releaseDate.isNotEmpty ? releaseDate : 'Release Date Unavailable',
-                      style: TextStyle(color: Colors.grey[700], fontSize: 16),
-                    ),
-                  ],
-                ),
-                // Vote Average
-                Row(
-                  children: [
-                    Icon(Icons.star, color: Colors.amber),
-                    SizedBox(width: 8),
-                    Text(
-                      voteAverage.toStringAsFixed(1),
-                      style: TextStyle(color: Colors.grey[700], fontSize: 16),
-                    ),
-                  ],
-                ),
-              ],
             ),
           ),
         ],

@@ -178,24 +178,16 @@ class MovieSearchDelegate extends SearchDelegate {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(8),
-      itemCount: suggestions.length,
-      itemBuilder: (context, index) {
-        final movie = suggestions[index];
-        return CustomListTile(
-          height: 130,
-          leading: Image.network(
-            'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-            width: 70,
-            height: 130,
-            fit: BoxFit.cover,
-          ),
-          title: Text(
-            movie.title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        );
-      },
+  padding: const EdgeInsets.all(8),
+  itemCount: suggestions.length,
+  itemBuilder: (context, index) {
+    final movie = suggestions[index];
+    return CustomListTile(
+      movie: movie, // Pass the movie object directly
+      height: 130,  // Adjust the height as needed
     );
+  },
+);
+
   }
 }
