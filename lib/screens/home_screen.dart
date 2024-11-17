@@ -1,3 +1,5 @@
+import 'package:filmood/models/movies_model.dart';
+import 'package:filmood/screens/movie_grid_screen.dart';
 import 'package:filmood/widgets/custom_list_tile.dart';
 import 'package:filmood/widgets/horizontal_movie_list.dart';
 import 'package:flutter/material.dart';
@@ -92,13 +94,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: '',
                 ),
               if (movieProvider.upcomingMovies.isNotEmpty)
-                HorizontalMovieList(
-                  movies: movieProvider.upcomingMovies,
-                  title: 'Upcoming Movies',
-                ),
+                _buildSection(
+                context,
+                title: 'Upcoming Movies',
+                movies: movieProvider.upcomingMovies,
+              ),
               // Horizontal List of Popular Movies
               if (movieProvider.popularMovies.isNotEmpty)
-                HorizontalMovieList(
+                _buildSection(
+                  context,
                   movies: movieProvider.popularMovies,
                   title: 'Popular Movies',
                 ),
@@ -109,6 +113,40 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+ Widget _buildSection(BuildContext context, {required String title, required List<MovieModel> movies}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MovieGridScreen(
+                    title: title,
+                    movies: movies,
+                  ),
+                ),
+              );
+            },
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 116, 16, 184)
+              ),
+            ),
+          ),
+        ),
+        HorizontalMovieList(movies: movies, title: ''),
+      ],
+    );
+  }
+
 //rsearch fct
 class MovieSearchDelegate extends SearchDelegate {
   @override
