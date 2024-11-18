@@ -12,7 +12,9 @@ class ApiConstants {
   static const String POPULAR_MOVIES = 'movie/popular';
   static const String TOP_RATED_MOVIES = 'movie/top_rated';
   static const String ALL_MOVIES ='discover/movie';
-  //static const String MOVIE_DETAILS = 'movie/{id}';
   static const String NOW_PLAYING_MOVIES='movie/now_playing';
+  static String SIMILAR_MOVIES(int movieId) {
+    return 'movie/$movieId/recommendations';
+  }
 
 }

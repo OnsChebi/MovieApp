@@ -18,6 +18,32 @@ class MovieProvider with ChangeNotifier {
   List<MovieModel> allMovies = [];
   
 
+Future<void> getSimilarMovies(int id) async {
+  try {
+    final data = await _apiService.fetchSimilarMovies(id);
+
+    if (data != null && data['results'] != null) {
+      final movies = (data['results'] as List)
+          .map((movieJson) => MovieModel.fromJson(movieJson))
+          .toList();
+      movieSimilar = movies;
+
+      print('Fetched similar movies: ${movieSimilar.length}'); // Debugging log
+      notifyListeners();
+    } else {
+      print('No similar movies found or invalid response.');
+      movieSimilar = []; // Ensure empty state
+      notifyListeners();
+    }
+  } catch (e) {
+    print('Error fetching similar movies: $e');
+    movieSimilar = []; // Handle failure gracefully
+    notifyListeners();
+  }
+}
+
+
+
 
   // Fetching movies 
   Future<void> fetchMovies(String path, String category) async {
@@ -65,7 +91,6 @@ class MovieProvider with ChangeNotifier {
     await fetchMovies(ApiConstants.POPULAR_MOVIES, 'popular');
     await fetchMovies(ApiConstants.TOP_RATED_MOVIES, 'top_rated');
     await fetchMovies(ApiConstants.NOW_PLAYING_MOVIES, 'now_playing');
-    await fetchMovies(ApiConstants.NOW_PLAYING_MOVIES, 'similar');
     await fetchMovies(ApiConstants.ALL_MOVIES, 'all');
 
   }

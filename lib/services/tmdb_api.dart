@@ -27,4 +27,26 @@ class TmdbApi {
       throw Exception('Failed to perform GET request: $error');
     }
   }
+
+  
+Future<Map<String, dynamic>?> fetchSimilarMovies(int movieId) async {
+  final url = '${ApiConstants.BASE_URL}${ApiConstants.SIMILAR_MOVIES(movieId)}?api_key=${ApiConstants.API_KEY}';
+
+  try {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      // Parse the response data
+      final data = jsonDecode(response.body);
+      print('Similar Movies Data: $data'); // Debugging log
+      return data;
+    } else {
+      print('Failed to fetch similar movies: ${response.statusCode} - ${response.body}');
+      return null; // Return null if the request fails
+    }
+  } catch (e) {
+    print('Error fetching similar movies: $e');
+    return null; // Handle unexpected errors gracefully
+  }
+}
 }
