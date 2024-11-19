@@ -16,5 +16,8 @@ class ApiConstants {
   static String SIMILAR_MOVIES(int movieId) {
     return 'movie/$movieId/recommendations';
   }
+  // static String CAST(int movieId) {
+  //   return 'movie/$movieId/credits';
+  // }
 
 }

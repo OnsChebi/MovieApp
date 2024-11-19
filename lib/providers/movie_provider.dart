@@ -21,26 +21,22 @@ class MovieProvider with ChangeNotifier {
 Future<void> getSimilarMovies(int id) async {
   try {
     final data = await _apiService.fetchSimilarMovies(id);
-
     if (data != null && data['results'] != null) {
       final movies = (data['results'] as List)
           .map((movieJson) => MovieModel.fromJson(movieJson))
           .toList();
       movieSimilar = movies;
-
-      print('Fetched similar movies: ${movieSimilar.length}'); // Debugging log
       notifyListeners();
     } else {
-      print('No similar movies found or invalid response.');
-      movieSimilar = []; // Ensure empty state
+      movieSimilar = []; 
       notifyListeners();
     }
   } catch (e) {
-    print('Error fetching similar movies: $e');
-    movieSimilar = []; // Handle failure gracefully
+    movieSimilar = []; 
     notifyListeners();
   }
 }
+
 
 
 

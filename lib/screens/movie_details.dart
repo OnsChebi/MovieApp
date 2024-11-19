@@ -15,6 +15,7 @@ class MoviesDetailScreen extends StatefulWidget {
 
 
 class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
+  bool isExpanded=false;
   @override
   void initState() {
     super.initState();
@@ -25,7 +26,7 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final String poster = 'https://image.tmdb.org/t/p/w500${widget.movie.posterPath}';
+    final String poster = 'https://image.tmdb.org/t/p/w500${widget.movie.backdropPath}';
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -93,9 +94,10 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    widget.movie.overview ?? 'No description available.',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                    isExpanded?widget.movie.overview ?? 'No description available.':
+                    (widget.movie.overview?.substring(0, 100) ?? 'No description available.')+'...',
+                    // maxLines: 3,
+                    // overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black87,
@@ -104,11 +106,13 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Handle see more action
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
                     },
-                    child: const Text(
-                      'See More',
-                      style: TextStyle(color: Colors.blue),
+                    child: Text(
+                      isExpanded ?'See Less':'See More',
+                      style: const TextStyle(color: Colors.blue),
                     ),
                   ),
                   const SizedBox(height: 16),
