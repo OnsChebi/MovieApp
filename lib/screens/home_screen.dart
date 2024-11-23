@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+      backgroundColor: const Color.fromARGB(255, 250, 121, 0),
       appBar: AppBar(
         title: Image.asset(
           'assets/logo.png',
@@ -39,6 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+        actions: [
+          IconButton(
+            icon:const Icon(Icons.search, color: Colors.white),
+            onPressed: () {
+              // Search button
+              showSearch(
+                context: context,
+                delegate: MovieSearchDelegate(),
+              );
+            },
+          ),
+        ],
         leading: GestureDetector(
           onTap: () {
             setState(() {
