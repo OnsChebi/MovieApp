@@ -1,10 +1,11 @@
+import 'package:filmood/screens/CategorieScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:filmood/providers/movie_provider.dart';
 import 'package:filmood/models/movies_model.dart';
 import 'package:filmood/screens/movie_grid_screen.dart';
 import 'package:filmood/widgets/custom_list_tile.dart';
 import 'package:filmood/widgets/horizontal_movie_list.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:filmood/providers/movie_provider.dart';
 import 'package:filmood/widgets/movie_carousel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetching movies after initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<MovieProvider>(context, listen: false).fetchAllMovies();
     });
@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Access to the provider to retrieve movie data
     final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
@@ -40,29 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 116, 16, 184),
-        actions: [
-          IconButton(
-            icon:const Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              // Search button
-              showSearch(
-                context: context,
-                delegate: MovieSearchDelegate(),
-              );
-            },
-          ),
-        ],
         leading: GestureDetector(
           onTap: () {
             setState(() {
-              // Toggle drawer
               if (isDrawerOpen) {
                 xOffset = 0;
                 yOffset = 0;
                 isDrawerOpen = false;
               } else {
                 xOffset = 200;
-                yOffset = 10;
+                yOffset = 50;
                 isDrawerOpen = true;
               }
             });
@@ -73,48 +59,72 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      //animation for the drawer
-      body: AnimatedContainer(
-        transform: Matrix4.translationValues(xOffset, yOffset, 0)
-          // For the translation
-          ..scale(isDrawerOpen ? 0.85 : 1.00)
-          ..rotateZ(isDrawerOpen ? -50 : 0),
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              // Movie Carousels
-              if (movieProvider.trendingMovies.isNotEmpty)
-                MovieCarousel(
-                  movies: movieProvider.trendingMovies,
-                  title: '',
+      body: Stack(
+        children: [
+          // Drawer Menu
+          Container(
+            padding: const EdgeInsets.only(top: 50, left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategorieScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text("Categorie"),
                 ),
-              if (movieProvider.upcomingMovies.isNotEmpty)
-                _buildSection(
-                context,
-                title: 'Upcoming Movies',
-                movies: movieProvider.upcomingMovies,
-              ),
-              // Horizontal List of Popular Movies
-              if (movieProvider.popularMovies.isNotEmpty)
-                _buildSection(
-                  context,
-                  movies: movieProvider.popularMovies,
-                  title: 'Popular Movies',
-                ),
-            ],
+              ],
+            ),
           ),
-        ),
+          // Main Content
+          AnimatedContainer(
+            transform: Matrix4.translationValues(xOffset, yOffset, 0)
+              ..scale(isDrawerOpen ? 0.85 : 1.00),
+            duration: const Duration(milliseconds: 250),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: isDrawerOpen
+                  ? BorderRadius.circular(20)
+                  : BorderRadius.circular(0),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  // Movie Carousels
+                  if (movieProvider.trendingMovies.isNotEmpty)
+                    MovieCarousel(
+                      movies: movieProvider.trendingMovies,
+                      title: 'Trending Now',
+                    ),
+                  if (movieProvider.upcomingMovies.isNotEmpty)
+                    _buildSection(
+                      context,
+                      title: 'Upcoming Movies',
+                      movies: movieProvider.upcomingMovies,
+                    ),
+                  if (movieProvider.popularMovies.isNotEmpty)
+                    _buildSection(
+                      context,
+                      title: 'Popular Movies',
+                      movies: movieProvider.popularMovies,
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
 
- Widget _buildSection(BuildContext context, {required String title, required List<MovieModel> movies}) {
+  Widget _buildSection(BuildContext context,
+      {required String title, required List<MovieModel> movies}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -137,96 +147,14 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 116, 16, 184)
+                color: Color.fromARGB(255, 116, 16, 184),
               ),
             ),
           ),
         ),
-        HorizontalMovieList(movies: movies, title: ''),
+        HorizontalMovieList(movies: movies),
       ],
     );
   }
-
-//rsearch fct
-class MovieSearchDelegate extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = ''; // Clear the search input
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon:const  Icon(Icons.arrow_back), // Back to home page
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // Retrieve movies for search result
-    final movieProvider = Provider.of<MovieProvider>(context);
-    //filtrartion selon search
-    final searchResults = movieProvider.allMovies
-        .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    if (searchResults.isEmpty) {
-      return Center(child: Text('No results found for: $query'));
-    }
-
-    return ListView.builder(
-      itemCount: searchResults.length,
-      itemBuilder: (context, index) {
-        final movie = searchResults[index];
-        return ListTile(
-          leading: Image.network(
-            'https://image.tmdb.org/t/p/w500${movie.posterPath}', 
-            width: 50,
-            height: 75,
-            fit: BoxFit.cover,
-          ),
-          title: Text(
-            movie.title,
-            style:const  TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final movieProvider = Provider.of<MovieProvider>(context);
-    final suggestions = movieProvider.allMovies
-        .where((movie) => movie.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    if (suggestions.isEmpty) {
-      return  const Center(
-        child: CircularProgressIndicator());
-    }
-
-    return ListView.builder(
-  padding: const EdgeInsets.all(8),
-  itemCount: suggestions.length,
-  itemBuilder: (context, index) {
-    final movie = suggestions[index];
-    return CustomListTile(
-      movie: movie, // Pass the movie object directly
-      height: 130,  // Adjust the height as needed
-    );
-  },
-);
-
-  }
 }
+
