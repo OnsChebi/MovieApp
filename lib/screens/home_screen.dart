@@ -1,10 +1,12 @@
-import 'package:filmood/screens/CategorieScreen.dart';
+import 'package:filmood/screens/FavoriteScreen.dart';
+import 'package:filmood/screens/SearchScreen.dart';
+import 'package:filmood/screens/WatchLaterScreen.dart';
+import 'package:filmood/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';
 import 'package:filmood/models/movies_model.dart';
 import 'package:filmood/screens/movie_grid_screen.dart';
-import 'package:filmood/widgets/custom_list_tile.dart';
 import 'package:filmood/widgets/horizontal_movie_list.dart';
 import 'package:filmood/widgets/movie_carousel.dart';
 
@@ -41,9 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color.fromARGB(255, 116, 16, 184),
         actions: [
           IconButton(
-            icon:const Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.search, color: Colors.white),
             onPressed: () {
-              // Search button
               showSearch(
                 context: context,
                 delegate: MovieSearchDelegate(),
@@ -54,15 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: GestureDetector(
           onTap: () {
             setState(() {
-              if (isDrawerOpen) {
-                xOffset = 0;
-                yOffset = 0;
-                isDrawerOpen = false;
-              } else {
-                xOffset = 200;
-                yOffset = 50;
-                isDrawerOpen = true;
-              }
+              isDrawerOpen = !isDrawerOpen;
+              xOffset = isDrawerOpen ? 200 : 0;
+              yOffset = isDrawerOpen ? 50 : 0;
             });
           },
           child: Icon(
@@ -85,11 +80,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CategorieScreen(),
+                        builder: (context) => FavoriteScreen(userId: ''),
                       ),
                     );
                   },
-                  child: const Text("Categorie"),
+                  child: const Text("Favorites"),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WatchLaterScreen(userId: ''),
+                      ),
+                    );
+                  },
+                  child: const Text("Watch Later"),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            LoginScreen(), 
+                      ),
+                    );
+                  },
+                  child: const Text("Log Out"),
                 ),
               ],
             ),
@@ -169,4 +189,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
