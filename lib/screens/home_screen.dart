@@ -32,14 +32,14 @@ class _HomeScreenState extends State<HomeScreen> {
     final movieProvider = Provider.of<MovieProvider>(context);
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+      backgroundColor: const Color.fromARGB(255, 250, 121, 0),
       appBar: AppBar(
         title: Image.asset(
           'assets/logo.png',
           height: 200,
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+        backgroundColor: const Color.fromARGB(255, 250, 121, 0),
         actions: [
           IconButton(
             icon:const Icon(Icons.search, color: Colors.white),
@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 116, 16, 184)
+                color: Color.fromARGB(255, 250, 121, 0)
               ),
             ),
           ),

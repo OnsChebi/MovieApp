@@ -9,16 +9,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 116, 16, 184),
+      color: const Color.fromARGB(255, 250, 121, 0),
       child: Padding(
         padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
         child: ListView(
           children: <Widget>[
-            // Profile Section
+            
             Row(
               children: <Widget>[
                 CircleAvatar(
-                  radius: 30, // Adjust radius
+                  radius: 30, 
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
@@ -41,7 +41,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            // List of items
+            
             const ListTile(
               leading: Icon(Icons.chat_bubble_outline, color: Colors.white),
               title: Text(
@@ -65,9 +65,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 'Log out',
                 style: TextStyle(color: Colors.white.withOpacity(0.5)),
               ),
-              onTap: () {
-                // Implement logout functionality here
-              },
+              // onTap: () {
+              // },
             ),
           ],
         ),

@@ -56,7 +56,7 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
-                      // Handle play action
+                      
                     },
                     child: const Icon(Icons.play_arrow, color: Colors.black),
                   ),
@@ -96,8 +96,7 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                   Text(
                     isExpanded?widget.movie.overview ?? 'No description available.':
                     (widget.movie.overview?.substring(0, 100) ?? 'No description available.')+'...',
-                    // maxLines: 3,
-                    // overflow: TextOverflow.ellipsis,
+                    
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black87,
@@ -172,7 +171,6 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
   Widget _buildRelatedMoviesList(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
 
-    // Replace with actual related movies list
     final List<MovieModel> SimilarMovies =movieProvider.movieSimilar;
     if (SimilarMovies.isEmpty) {
     return const Center(

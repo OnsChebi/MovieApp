@@ -3,7 +3,7 @@ import 'package:filmood/screens/movie_details.dart';
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
-  final MovieModel movie; // Specific movie data
+  final MovieModel movie; 
   final double height;
 
   const CustomListTile({
@@ -29,19 +29,19 @@ class CustomListTile extends StatelessWidget {
           height: height,
           child: Row(
             children: [
-              // Movie poster as the leading widget
+              
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
                     'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    width: 50, // Thumbnail size
+                    width: 50, 
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              // Movie title as the title widget
+              
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

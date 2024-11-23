@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "288526136103",
+    "project_id": "filmood-f2aae",
+    "storage_bucket": "filmood-f2aae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288526136103:android:94b2fcdaf738243536ef02",
+        "android_client_info": {
+          "package_name": "com.example.filmood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2m_EZJPhSnYELLPV4Ase0jGTKjXbYGkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

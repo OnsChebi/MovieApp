@@ -25,7 +25,7 @@ class TmdbApi {
             'Failed to load data: ${response.statusCode} - ${response.reasonPhrase}');
       }
     } catch (error) {
-      // for other errors( network or parsing )
+      
       throw Exception('Failed to perform GET request: $error');
     }
   }
@@ -39,7 +39,7 @@ class TmdbApi {
         final data = jsonDecode(response.body);
         return data;
       } else {
-        return null; // Return null if the request fails
+        return null; 
       }
     } catch (e) {
       return null;

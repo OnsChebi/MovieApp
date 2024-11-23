@@ -62,7 +62,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
                 autoPlay: true,
                 onPageChanged: (index, reason) {
                   setState(() {
-                    _currentIndex = index; // Update background on movie change
+                    _currentIndex = index; 
                   });
                 },
               ),
@@ -71,7 +71,7 @@ class _MovieCarouselState extends State<MovieCarousel> {
                   builder: (BuildContext context) {
                     return Column(
                       children: [
-                        SizedBox(height: 40), // Position poster lower than background
+                        SizedBox(height: 40), 
                         Card(
                           elevation: 8,
                           shape: RoundedRectangleBorder(
@@ -97,11 +97,6 @@ class _MovieCarouselState extends State<MovieCarousel> {
     ),
   ),
 ),
-                        SizedBox(height: 10),
-                        // Text(
-                        //   movie.title,
-                        //   style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
-                        // ),
                       ],
                     );
                   },
