@@ -133,18 +133,18 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                         icon: const Icon(Icons.add),
                         label: const Text('Add to Watch Later'),
                       ),
-                      // const SizedBox(width: 16),
-                      // ElevatedButton(
-                      //   style: ElevatedButton.styleFrom(
-                      //     shape: const CircleBorder(),
-                      //     padding: const EdgeInsets.all(12),
-                      //     backgroundColor: Colors.redAccent,
-                      //   ),
-                      //   onPressed: () {
-                      //     // Handle add to favorites
-                      //   },
-                      //   child: const Icon(Icons.favorite, color: Colors.white),
-                      // ),
+                       const SizedBox(width: 16),
+                       ElevatedButton(
+                         style: ElevatedButton.styleFrom(
+                           shape: const CircleBorder(),
+                           padding: const EdgeInsets.all(12),
+                           backgroundColor: Colors.redAccent,
+                         ),
+                         onPressed: () {
+                           // Handle add to favorites
+                         },
+                         child: const Icon(Icons.favorite, color: Colors.white),
+                       ),
                     ],
                   ),
                   const SizedBox(height: 24),
