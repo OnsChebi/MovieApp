@@ -2,6 +2,7 @@ import 'package:filmood/providers/movie_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:filmood/models/movies_model.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class MoviesDetailScreen extends StatefulWidget {
   final MovieModel movie;
@@ -15,13 +16,19 @@ class MoviesDetailScreen extends StatefulWidget {
 
 
 class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
+  VideoPlayerController? _videoController;
   bool isExpanded=false;
   @override
   void initState() {
     super.initState();
     final movieProvider = Provider.of<MovieProvider>(context, listen: false);
     movieProvider.getSimilarMovies(widget.movie.id); 
-    
+    _videoController = VideoPlayerController.networkUrl(
+  Uri.parse("https://www.lookmovie2.to/api/v2/download/movies/request-file?id=132729&name=29623480-the-wild-robot-2024[1080p]&sid=229205"),
+)..initialize().then((_) {
+  setState(() {});
+});
+  
   }
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,9 @@ class _MoviesDetailScreenState extends State<MoviesDetailScreen> {
                       backgroundColor: Colors.white,
                     ),
                     onPressed: () {
-                      
+                      if (_videoController != null && _videoController!.value.isInitialized) {
+                        _videoController!.play();
+                      }
                     },
                     child: const Icon(Icons.play_arrow, color: Colors.black),
                   ),
