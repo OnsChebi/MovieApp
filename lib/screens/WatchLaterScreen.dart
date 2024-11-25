@@ -9,9 +9,8 @@ class WatchLaterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ensure the WatchLaterProvider uses the userId passed in
     return ChangeNotifierProvider(
-      create: (_) => WatchLaterProvider(userId), // Pass userId here
+      create: (_) => WatchLaterProvider(userId),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Watch Later'),
@@ -23,7 +22,8 @@ class WatchLaterScreen extends StatelessWidget {
                 ? const Center(
                     child: Text(
                       'No watch later movie added yet!',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   )
                 : ListView.builder(
@@ -42,8 +42,9 @@ class WatchLaterScreen extends StatelessWidget {
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) =>
-                                        const Icon(Icons.movie, size: 50),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.movie, size: 50),
                                   ),
                                 )
                               : const Icon(Icons.movie, size: 50),

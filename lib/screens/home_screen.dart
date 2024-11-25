@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:filmood/screens/FavoriteScreen.dart';
 import 'package:filmood/screens/SearchScreen.dart';
 import 'package:filmood/screens/WatchLaterScreen.dart';
 import 'package:filmood/screens/login_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:filmood/providers/movie_provider.dart';
 import 'package:filmood/models/movies_model.dart';
@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   double xOffset = 0;
   double yOffset = 0;
+  double scaleFactor = 1;
   bool isDrawerOpen = false;
 
   @override
@@ -28,55 +29,64 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void toggleDrawer() {
+    setState(() {
+      isDrawerOpen = !isDrawerOpen;
+      xOffset = isDrawerOpen ? 250 : 0;
+      yOffset = isDrawerOpen ? 100 : 0;
+      scaleFactor = isDrawerOpen ? 0.85 : 1.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final movieProvider = Provider.of<MovieProvider>(context);
 
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 250, 121, 0),
-      appBar: AppBar(
-        title: Image.asset(
-          'assets/logo.png',
-          height: 200,
-        ),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 116, 16, 184),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: MovieSearchDelegate(),
-              );
-            },
-          ),
-        ],
-        leading: GestureDetector(
-          onTap: () {
-            setState(() {
-              isDrawerOpen = !isDrawerOpen;
-              xOffset = isDrawerOpen ? 200 : 0;
-              yOffset = isDrawerOpen ? 50 : 0;
-            });
-          },
-          child: Icon(
-            isDrawerOpen ? Icons.arrow_back_ios : Icons.menu,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          // Drawer Menu
-          Container(
-            padding: const EdgeInsets.only(top: 50, left: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      children: [
+        // Drawer Screen
+        Container(
+          color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 50, left: 40, bottom: 70),
+            child: ListView(
               children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 85,
+                      backgroundColor: Colors.black,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          'assets/logo.png',
+                          fit: BoxFit.cover,
+                          width: 350,
+                          height: 350,
+                          //color: const Color.fromARGB(255, 250, 121, 0),
+                        ),
+                        
+                      ),
+                    ),
+                    const SizedBox(width: 2),
+                    /* const Text(
+                      'filmood',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ), */
+                  ],
+                ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
+                ListTile(
+                  leading: const Icon(Icons.favorite_border, color: Colors.white),
+                  title: const Text(
+                    'Favorites',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -84,11 +94,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  child: const Text("Favorites"),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
+                Divider(color: Colors.white.withOpacity(0.5)),
+                ListTile(
+                  leading: const Icon(Icons.watch_later_outlined, color: Colors.white),
+                  title: const Text(
+                    'Watch Later',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -96,39 +110,68 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   },
-                  child: const Text("Watch Later"),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
+                Divider(color: Colors.white.withOpacity(0.5)),
+                ListTile(
+                  leading: Icon(Icons.logout, color: Colors.white.withOpacity(0.8)),
+                  title: Text(
+                    'Log Out',
+                    style: TextStyle(color: Colors.white.withOpacity(0.8)),
+                  ),
+                  onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            LoginScreen(), 
-                      ),
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
                   },
-                  child: const Text("Log Out"),
                 ),
               ],
             ),
           ),
-          // Main Content
-          AnimatedContainer(
-            transform: Matrix4.translationValues(xOffset, yOffset, 0)
-              ..scale(isDrawerOpen ? 0.85 : 1.00),
-            duration: const Duration(milliseconds: 250),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: isDrawerOpen
-                  ? BorderRadius.circular(20)
-                  : BorderRadius.circular(0),
+        ),
+
+        // Main Content
+        AnimatedContainer(
+          transform: Matrix4.translationValues(xOffset, yOffset, 0)
+            ..scale(scaleFactor),
+          duration: const Duration(milliseconds: 250),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: isDrawerOpen
+                ? BorderRadius.circular(20)
+                : BorderRadius.circular(0),
+          ),
+          child: Scaffold(
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            appBar: AppBar(
+              title: Image.asset(
+                'assets/logo.png',
+                height: 200,
+              ),
+              centerTitle: true,
+              backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search, color: Colors.white),
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: MovieSearchDelegate(),
+                    );
+                  },
+                ),
+              ],
+              leading: GestureDetector(
+                onTap: toggleDrawer,
+                child: Icon(
+                  isDrawerOpen ? Icons.arrow_back_ios : Icons.menu,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            child: SingleChildScrollView(
+            body: SingleChildScrollView(
               child: Column(
-                children: <Widget>[
-                  // Movie Carousels
+                children: [
                   if (movieProvider.trendingMovies.isNotEmpty)
                     MovieCarousel(
                       movies: movieProvider.trendingMovies,
@@ -150,8 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

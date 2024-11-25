@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class WatchLaterProvider with ChangeNotifier {
   List<MovieModel> _watchLater = [];
-  final String userId; // The userId is required to store "Watch Later" movies for each user
+  final String userId;
 
   WatchLaterProvider(this.userId) {
     _loadWatchLater();
@@ -15,23 +15,32 @@ class WatchLaterProvider with ChangeNotifier {
   // Load the "Watch Later" movies from Firestore
   void _loadWatchLater() async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('watchlater').doc(userId);
+      final docRef =
+          FirebaseFirestore.instance.collection('watchlater').doc(userId);
       final snapshot = await docRef.collection('userwatchlater').get();
 
-      _watchLater = snapshot.docs
-          .map((doc) => MovieModel.fromJson(doc.data()))
-          .toList();
+      _watchLater =
+          snapshot.docs.map((doc) => MovieModel.fromJson(doc.data())).toList();
       notifyListeners();
     } catch (e) {
       print('Error loading "Watch Later" movies: $e');
     }
+    print(_watchLater);
   }
 
   // Add a movie to "Watch Later" in Firestore
   void addWatchLater(MovieModel movie) async {
+    if (userId.isEmpty || movie.id == null || movie.id.toString().isEmpty) {
+      print('Error: Invalid userId or movie.id');
+      print(userId);
+      print(movie.id);
+      return;
+    }
     try {
-      final docRef = FirebaseFirestore.instance.collection('watchlater').doc(userId);
+      final docRef =
+          FirebaseFirestore.instance.collection('watchlater').doc(userId);
       await docRef.collection('userwatchlater').doc(movie.id.toString()).set({
+        'id': movie.id,
         'title': movie.title,
         'overview': movie.overview,
         'posterPath': movie.posterPath,
@@ -50,8 +59,12 @@ class WatchLaterProvider with ChangeNotifier {
   // Remove a movie from "Watch Later" in Firestore
   void removeWatchLater(MovieModel movie) async {
     try {
-      final docRef = FirebaseFirestore.instance.collection('watchlater').doc(userId);
-      await docRef.collection('userwatchlater').doc(movie.id.toString()).delete();
+      final docRef =
+          FirebaseFirestore.instance.collection('watchlater').doc(userId);
+      await docRef
+          .collection('userwatchlater')
+          .doc(movie.id.toString())
+          .delete();
 
       _watchLater.remove(movie);
       notifyListeners();

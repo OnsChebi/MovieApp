@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class FavoriteProvider with ChangeNotifier {
   List<MovieModel> _favorites = [];
-  final String userId; // You'll need the userId to store favorites for each user
+  final String userId;
 
   FavoriteProvider(this.userId) {
     _loadFavorites();
@@ -32,6 +32,7 @@ class FavoriteProvider with ChangeNotifier {
     try {
       final docRef = FirebaseFirestore.instance.collection('favorites').doc(userId);
       await docRef.collection('userFavorites').doc(movie.id.toString()).set({
+        'id': movie.id,
         'title': movie.title,
         'overview': movie.overview,
         'posterPath': movie.posterPath,
@@ -39,7 +40,6 @@ class FavoriteProvider with ChangeNotifier {
         'voteAverage': movie.voteAverage,
         'releaseDate': movie.releaseDate,
       });
-
       _favorites.add(movie);
       notifyListeners();
     } catch (e) {
