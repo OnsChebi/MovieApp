@@ -53,7 +53,7 @@ class AuthService {
       );
       return _userFromFirebase(result.user);
     } catch (e) {
-      print('error during login $e');
+      //print('error during login $e');
      throw e;
     }
   }
