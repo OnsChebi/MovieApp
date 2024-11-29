@@ -12,7 +12,7 @@ class FavoriteScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorites'),
-        backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+        backgroundColor: const Color.fromARGB(255, 250, 121, 0),
       ),
       body: Consumer<FavoriteProvider>(
         builder: (context, favoriteProvider, child) {

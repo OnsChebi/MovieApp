@@ -60,7 +60,7 @@ class _GenreScreenState extends State<GenreScreen> {
           'Movies in Genre ${widget.genreName}',
           style: const TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+        backgroundColor: const Color.fromARGB(255, 250, 121, 0),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -94,8 +94,8 @@ class _GenreScreenState extends State<GenreScreen> {
                     );
                   },
                   child: Card(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

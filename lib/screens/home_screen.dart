@@ -65,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 350,
                           //color: const Color.fromARGB(255, 250, 121, 0),
                         ),
-                        
                       ),
                     ),
                     const SizedBox(width: 2),
@@ -81,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 20),
                 ListTile(
-                  leading: const Icon(Icons.favorite_border, color: Colors.white),
+                  leading:
+                      const Icon(Icons.favorite_border, color: Colors.white),
                   title: const Text(
                     'Favorites',
                     style: TextStyle(color: Colors.white),
@@ -97,7 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Divider(color: Colors.white.withOpacity(0.5)),
                 ListTile(
-                  leading: const Icon(Icons.watch_later_outlined, color: Colors.white),
+                  leading: const Icon(Icons.watch_later_outlined,
+                      color: Colors.white),
                   title: const Text(
                     'Watch Later',
                     style: TextStyle(color: Colors.white),
@@ -113,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Divider(color: Colors.white.withOpacity(0.5)),
                 ListTile(
-                  leading: Icon(Icons.logout, color: Colors.white.withOpacity(0.8)),
+                  leading:
+                      Icon(Icons.logout, color: Colors.white.withOpacity(0.8)),
                   title: Text(
                     'Log Out',
                     style: TextStyle(color: Colors.white.withOpacity(0.8)),
@@ -149,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 200,
               ),
               centerTitle: true,
-              backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+              backgroundColor: const Color.fromARGB(255, 250, 121, 0),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
@@ -222,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 116, 16, 184),
+                color: Color.fromARGB(255, 250, 121, 0),
               ),
             ),
           ),

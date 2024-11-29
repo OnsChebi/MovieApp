@@ -74,7 +74,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
           "Categorie",
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: const Color.fromARGB(255, 116, 16, 184),
+        backgroundColor: const Color.fromARGB(255, 250, 121, 0),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -105,9 +105,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => GenreScreen(
-                              genreId:genreId,
-                              genreName:genreName
-                            ),
+                                genreId: genreId, genreName: genreName),
                           ),
                         );
                       },
@@ -116,7 +114,7 @@ class _CategorieScreenState extends State<CategorieScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Icon(getGenreIcon(genreName),
-                              size: 40, color: Colors.purple),
+                              size: 40, color: Color.fromARGB(255, 250, 121, 0)),
                           const SizedBox(height: 8),
                           Text(
                             genreName,
